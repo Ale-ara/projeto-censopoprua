@@ -14,12 +14,33 @@
     <section class="slide slide-cover active" data-slide="1" aria-label="Abertura">
       <img class="cover-image" src="assets/abordagem-social-equipe.png" alt="Fotografia da equipe da Secretaria de Assistência Social e Cidadania durante atividade de campo em Belford Roxo">
       <div class="cover-shade"></div>
+      <svg class="cover-arcs" viewBox="0 0 1920 1080" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
+        <defs>
+          <path id="coverArcTop" d="M0 212 C110 183 194 94 226 0" pathLength="100"></path>
+          <path id="coverArcLeft" d="M0 650 C106 754 168 928 178 1080" pathLength="100"></path>
+          <path id="coverArcBottom" d="M1460 1080 C1590 990 1750 930 1920 928" pathLength="100"></path>
+        </defs>
+        <g class="cover-arc-lines">
+          <use href="#coverArcTop"></use>
+          <path d="M0 160 C81 135 143 65 166 0"></path>
+          <path d="M0 108 C51 86 92 43 108 0"></path>
+          <use class="cover-arc-amber" href="#coverArcLeft"></use>
+          <path class="cover-arc-amber" d="M0 772 C70 904 102 995 108 1080"></path>
+          <use href="#coverArcBottom"></use>
+        </g>
+        <g class="cover-arc-reflections">
+          <use class="cover-arc-reflection" href="#coverArcTop"></use>
+          <use class="cover-arc-reflection cover-arc-reflection-left" href="#coverArcLeft"></use>
+          <use class="cover-arc-reflection cover-arc-reflection-bottom" href="#coverArcBottom"></use>
+        </g>
+      </svg>
+      <div class="cover-particles" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
       <div class="cover-content reveal">
         <div class="cover-brand">
           <span class="brand-rule"></span>
           <span>Vigilância Socioassistencial</span>
         </div>
-        <h1>Apresentação do Plano de Ação do Censo Pop Rua</h1>
+        <h1><span class="cover-title-line">Apresentação</span> <span class="cover-title-line">do Plano de</span> <span class="cover-title-line cover-title-accent">Ação do Censo</span> <span class="cover-title-line">Pop Rua</span></h1>
         <p class="cover-subtitle">Proposta de estudo territorial para o município de Belford Roxo</p>
         <div class="cover-meta">
           <span>SEMASC</span>
@@ -28,6 +49,7 @@
       </div>
       <div class="cover-logo reveal delay-2">
         <img src="assets/vigilancia-logo.png" alt="Vigilância Socioassistencial de Belford Roxo">
+        <span class="cover-logo-orbit" aria-hidden="true"><span></span></span>
       </div>
     </section>
 
