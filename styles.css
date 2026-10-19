@@ -2148,9 +2148,9 @@ select {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 30px;
-  margin-top: 90px;
+  margin-top: 56px;
 }
 
 .field-flow::before {
@@ -2158,7 +2158,7 @@ select {
   position: absolute;
   left: 145px;
   right: 145px;
-  top: 69px;
+  top: 61px;
   height: 2px;
   background: #cfe4f5;
 }
@@ -2166,7 +2166,7 @@ select {
 .field-step {
   position: relative;
   min-height: 480px;
-  padding: 42px 32px 36px;
+  padding: 32px 24px 30px;
   background: rgba(255, 255, 255, 0.82);
   border-bottom: 4px solid var(--blue-650);
   box-shadow: 0 20px 58px rgba(17, 54, 94, 0.09);
@@ -2178,8 +2178,8 @@ select {
 
 .field-step .step-index {
   position: absolute;
-  top: 28px;
-  right: 30px;
+  top: 24px;
+  right: 24px;
   color: #a7b7c9;
   font-size: 18px;
   font-weight: 800;
@@ -2190,15 +2190,16 @@ select {
   z-index: 2;
   width: 58px;
   height: 58px;
-  margin: 0 0 82px;
+  margin: 0 0 36px;
   color: var(--blue-650);
   background: var(--white);
 }
 
 .field-step h3 {
-  margin: 0 0 22px;
+  margin: 0 0 18px;
   color: var(--navy-900);
-  font-size: 29px;
+  font-size: 25px;
+  line-height: 1.2;
 }
 
 .field-step p {
@@ -2214,7 +2215,7 @@ select {
   display: flex;
   align-items: center;
   gap: 26px;
-  margin-top: 42px;
+  margin-top: 32px;
   padding: 26px 34px;
   color: var(--white);
   background: var(--navy-900);
@@ -2242,17 +2243,22 @@ select {
 
 .slide[data-slide="7"] .field-step:nth-child(2) {
   --field-entry-delay: 460ms;
-  --field-effect-delay: 3700ms;
+  --field-effect-delay: 3400ms;
 }
 
 .slide[data-slide="7"] .field-step:nth-child(3) {
   --field-entry-delay: 640ms;
-  --field-effect-delay: 5600ms;
+  --field-effect-delay: 5000ms;
 }
 
 .slide[data-slide="7"] .field-step:nth-child(4) {
   --field-entry-delay: 820ms;
-  --field-effect-delay: 7500ms;
+  --field-effect-delay: 6600ms;
+}
+
+.slide[data-slide="7"] .field-step:nth-child(5) {
+  --field-entry-delay: 1000ms;
+  --field-effect-delay: 8200ms;
 }
 
 .slide[data-slide="7"] .field-flow::after {
@@ -2261,7 +2267,7 @@ select {
   z-index: 0;
   left: 145px;
   right: 145px;
-  top: 69px;
+  top: 61px;
   height: 2px;
   background: linear-gradient(90deg, transparent, rgba(16, 188, 229, 0.75), var(--cyan-200), transparent) no-repeat 0 0 / 100px 100%;
   opacity: 0;
@@ -2284,8 +2290,8 @@ select {
   content: "";
   position: absolute;
   z-index: 3;
-  left: 41px;
-  top: 50px;
+  left: 33px;
+  top: 40px;
   width: 40px;
   height: 1.5px;
   background: linear-gradient(90deg, transparent, var(--cyan-500), transparent);
@@ -2367,7 +2373,11 @@ select {
 }
 
 .slide[data-slide="7"].active.field-motion-ready .ethics-band svg {
-  animation: fieldEthicsPulse 10s ease-in-out 9200ms infinite;
+  animation: fieldEthicsPulse 10s ease-in-out 9800ms infinite;
+}
+
+.slide[data-slide="7"].active.field-motion-ready [data-lucide="list-checks"] path {
+  animation: fieldChecklistMark 10s ease-in-out var(--field-effect-delay) infinite;
 }
 
 @keyframes fieldCardIn {
