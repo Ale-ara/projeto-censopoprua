@@ -983,8 +983,8 @@ select {
   counter-reset: timeline-step;
   align-items: start;
   gap: 24px;
-  min-height: 540px;
-  margin-top: 64px;
+  min-height: 340px;
+  margin-top: 120px;
 }
 
 .slide-timeline[data-slide="5"] .timeline::before,
@@ -992,7 +992,7 @@ select {
   content: "";
   position: absolute;
   left: 56px;
-  top: 180px;
+  top: 88px;
   width: calc(100% - 112px);
   height: 2px;
   pointer-events: none;
@@ -1021,7 +1021,7 @@ select {
   position: absolute;
   z-index: 3;
   left: 56px;
-  top: 177px;
+  top: 85px;
   width: 15%;
   height: 8px;
   opacity: 0;
@@ -1039,7 +1039,7 @@ select {
 .slide-timeline[data-slide="5"] .timeline-item {
   z-index: 4;
   counter-increment: timeline-step;
-  min-height: 470px;
+  min-height: 280px;
   padding: 30px 28px 28px;
   border: 1px solid rgba(126, 184, 231, 0.22);
   border-top: 1px solid rgba(166, 234, 248, 0.34);
@@ -1138,7 +1138,7 @@ select {
   height: 52px;
   display: grid;
   place-items: center;
-  margin: 82px auto 28px;
+  margin: 32px auto 28px;
   border: 4px solid var(--navy-950);
   color: var(--white);
   background: var(--cyan-500);
