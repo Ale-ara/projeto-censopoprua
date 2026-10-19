@@ -983,7 +983,7 @@ select {
   counter-reset: timeline-step;
   align-items: start;
   gap: 24px;
-  min-height: 340px;
+  min-height: 440px;
   margin-top: 120px;
 }
 
@@ -1039,7 +1039,7 @@ select {
 .slide-timeline[data-slide="5"] .timeline-item {
   z-index: 4;
   counter-increment: timeline-step;
-  min-height: 280px;
+  min-height: 380px;
   padding: 30px 28px 28px;
   border: 1px solid rgba(126, 184, 231, 0.22);
   border-top: 1px solid rgba(166, 234, 248, 0.34);
