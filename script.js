@@ -125,7 +125,8 @@ function activateTimelineMilestone(selectedMilestone) {
 }
 
 timelineMilestones.forEach((milestone, index) => {
-  const description = milestone.querySelector('p')?.textContent?.trim() || '';
+  const description = Array.from(milestone.querySelectorAll('p, .timeline-status'))
+    .map((element) => element.textContent.trim()).join(' ');
   milestone.setAttribute('aria-label', `Etapa ${index + 1}: ${description} Clique para destacar esta etapa.`);
 
   milestone.addEventListener('click', () => activateTimelineMilestone(milestone));

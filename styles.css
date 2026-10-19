@@ -1197,6 +1197,16 @@ select {
   text-align: center;
 }
 
+.slide-timeline[data-slide="5"] .timeline-status {
+  display: block;
+  margin-top: 14px;
+  color: var(--cyan-200);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+}
+
 .slide-timeline[data-slide="5"] .timeline-contribution {
   position: relative;
   z-index: 2;
@@ -3481,6 +3491,10 @@ select {
 
   .slide-timeline[data-slide="5"] .timeline-item p {
     font-size: 18px;
+    text-align: left;
+  }
+
+  .slide-timeline[data-slide="5"] .timeline-status {
     text-align: left;
   }
 
