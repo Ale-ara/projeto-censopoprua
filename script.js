@@ -2,6 +2,10 @@ const slides = Array.from(document.querySelectorAll('.slide'));
 const previousButton = document.getElementById('prevSlide');
 const nextButton = document.getElementById('nextSlide');
 const fullscreenButton = document.getElementById('fullscreen');
+const fullscreenHint = document.getElementById('fullscreenHint');
+const fullscreenHintAction = document.getElementById('fullscreenHintAction');
+const fullscreenHintClose = document.getElementById('fullscreenHintClose');
+const fullscreenHintStorageKey = 'censopoprua.fullscreen-hint.v1';
 const progressBar = document.getElementById('progressBar');
 const slideCounter = document.getElementById('slideCounter');
 const keyboardHint = document.querySelector('.keyboard-hint');
@@ -15,11 +19,51 @@ let currentSlide = 0;
 let touchStartX = 0;
 let touchStartY = 0;
 let trackingTouch = false;
+let fullscreenHintTimer;
+
+function positionFullscreenHint() {
+  if (fullscreenHint.hidden) return;
+  const button = fullscreenButton.getBoundingClientRect();
+  const center = button.left + button.width / 2;
+  const width = fullscreenHint.offsetWidth;
+  const left = Math.max(12, Math.min(center - width * 0.78, window.innerWidth - width - 12));
+  fullscreenHint.style.left = `${left}px`;
+  fullscreenHint.style.bottom = `${window.innerHeight - button.top + 14}px`;
+  fullscreenHint.style.setProperty('--fullscreen-hint-arrow-x', `${center - left}px`);
+}
+
+function hideFullscreenHint() {
+  window.clearTimeout(fullscreenHintTimer);
+  const restoreFocus = fullscreenHint.contains(document.activeElement);
+  fullscreenHint.hidden = true;
+  fullscreenButton.classList.remove('fullscreen-discover');
+  fullscreenButton.removeAttribute('aria-describedby');
+  if (restoreFocus) fullscreenButton.focus({ preventScroll: true });
+}
+
+function showFullscreenHint() {
+  if (fullscreenButton.hidden || document.fullscreenElement) return;
+  try {
+    if (window.localStorage.getItem(fullscreenHintStorageKey) === 'seen') return;
+  } catch {
+    // Storage may be unavailable in private browsing or local file previews.
+  }
+  fullscreenHint.hidden = false;
+  fullscreenButton.classList.add('fullscreen-discover');
+  fullscreenButton.setAttribute('aria-describedby', 'fullscreenHintText');
+  positionFullscreenHint();
+  try {
+    window.localStorage.setItem(fullscreenHintStorageKey, 'seen');
+  } catch {
+    // The hint remains dismissible even when the browser cannot remember it.
+  }
+}
 
 function fitPresentation() {
   document.documentElement.style.setProperty('--responsive-footer-height', `${Math.ceil(navigationFooter.getBoundingClientRect().height)}px`);
   if (responsiveLayout.matches) {
     document.documentElement.style.setProperty('--deck-scale', '1');
+    positionFullscreenHint();
     return;
   }
 
@@ -35,6 +79,7 @@ function fitPresentation() {
     / (slideHeight - 2 * safeFooter);
   const scale = Math.min(window.innerWidth / slideWidth, window.innerHeight / slideHeight, footerScale);
   document.documentElement.style.setProperty('--deck-scale', scale.toFixed(5));
+  positionFullscreenHint();
 }
 
 function restartAnimations(slide) {
@@ -75,6 +120,7 @@ function restartAnimations(slide) {
 }
 
 function showSlide(index) {
+  hideFullscreenHint();
   currentSlide = Math.max(0, Math.min(index, slides.length - 1));
   presentationCanvas.scrollTop = 0;
 
@@ -114,6 +160,8 @@ async function toggleFullscreen() {
 previousButton.addEventListener('click', goPrevious);
 nextButton.addEventListener('click', goNext);
 fullscreenButton.addEventListener('click', toggleFullscreen);
+fullscreenHintAction.addEventListener('click', toggleFullscreen);
+fullscreenHintClose.addEventListener('click', hideFullscreenHint);
 
 function activateTimelineMilestone(selectedMilestone) {
   timelineMilestones.forEach((milestone) => {
@@ -139,6 +187,11 @@ timelineMilestones.forEach((milestone, index) => {
 });
 
 document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !fullscreenHint.hidden) {
+    hideFullscreenHint();
+    return;
+  }
+  if (event.target.closest?.('.fullscreen-hint')) return;
   const nextKeys = ['ArrowRight', 'ArrowDown', 'PageDown', ' '];
   const previousKeys = ['ArrowLeft', 'ArrowUp', 'PageUp'];
 
@@ -183,6 +236,7 @@ document.addEventListener('touchcancel', () => {
 }, { passive: true });
 
 document.addEventListener('fullscreenchange', () => {
+  if (document.fullscreenElement) hideFullscreenHint();
   fullscreenButton.innerHTML = document.fullscreenElement
     ? '<i data-lucide="minimize"></i>'
     : '<i data-lucide="maximize"></i>';
@@ -203,5 +257,6 @@ window.addEventListener('load', () => {
   if (window.lucide) window.lucide.createIcons();
   const requestedSlide = Number.parseInt(window.location.hash.slice(1), 10) - 1;
   showSlide(Number.isInteger(requestedSlide) ? requestedSlide : 0);
+  fullscreenHintTimer = window.setTimeout(showFullscreenHint, 1000);
   window.setTimeout(() => keyboardHint.classList.add('hidden'), 4500);
 });
