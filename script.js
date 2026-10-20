@@ -122,6 +122,7 @@ function restartAnimations(slide) {
 function showSlide(index) {
   hideFullscreenHint();
   currentSlide = Math.max(0, Math.min(index, slides.length - 1));
+  document.body.classList.toggle('cover-open', currentSlide === 0);
   presentationCanvas.scrollTop = 0;
 
   slides.forEach((slide, slideIndex) => {
@@ -257,6 +258,7 @@ window.addEventListener('load', () => {
   if (window.lucide) window.lucide.createIcons();
   const requestedSlide = Number.parseInt(window.location.hash.slice(1), 10) - 1;
   showSlide(Number.isInteger(requestedSlide) ? requestedSlide : 0);
-  fullscreenHintTimer = window.setTimeout(showFullscreenHint, 1000);
+  const coverIntroDelay = currentSlide === 0 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 3400 : 1000;
+  fullscreenHintTimer = window.setTimeout(showFullscreenHint, coverIntroDelay);
   window.setTimeout(() => keyboardHint.classList.add('hidden'), 4500);
 });

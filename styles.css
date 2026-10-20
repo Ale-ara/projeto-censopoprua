@@ -99,6 +99,7 @@ select {
   height: 100%;
   object-fit: cover;
   object-position: center 45%;
+  transform-origin: 70% 55%;
 }
 
 .cover-shade {
@@ -106,7 +107,7 @@ select {
   inset: 0;
   background:
     linear-gradient(35deg, rgba(245, 168, 0, 0.52), transparent 13%),
-    linear-gradient(90deg, rgba(3, 20, 47, 0.97) 0%, rgba(3, 20, 47, 0.93) 32%, rgba(3, 20, 47, 0.72) 48%, rgba(3, 20, 47, 0.14) 70%, rgba(3, 20, 47, 0.08) 100%),
+    linear-gradient(90deg, rgba(2, 15, 37, 0.98) 0%, rgba(3, 20, 47, 0.94) 30%, rgba(3, 20, 47, 0.74) 46%, rgba(3, 20, 47, 0.18) 68%, rgba(3, 20, 47, 0.08) 100%),
     linear-gradient(0deg, rgba(3, 20, 47, 0.5), transparent 45%);
 }
 
@@ -117,8 +118,17 @@ select {
   bottom: -6%;
   left: 42%;
   width: 66%;
-  background: linear-gradient(115deg, transparent 16%, rgba(115, 188, 239, 0.14) 47%, rgba(91, 163, 218, 0.06) 64%, transparent 82%);
-  opacity: 0.18;
+  background: linear-gradient(115deg, transparent 16%, rgba(115, 188, 239, 0.2) 47%, rgba(91, 163, 218, 0.09) 64%, transparent 82%);
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.cover-shade::after {
+  content: "";
+  position: absolute;
+  inset: 0 45% 0 0;
+  background: linear-gradient(90deg, rgba(1, 9, 24, 0.34), transparent);
+  opacity: 0.58;
   pointer-events: none;
 }
 
@@ -142,11 +152,80 @@ select {
 
 .cover-arc-reflection {
   stroke: var(--cyan-200);
-  stroke-width: 1.4;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-dasharray: 2 98;
   stroke-dashoffset: 102;
   opacity: 0;
+}
+
+.cover-arc-light {
+  stroke: var(--cyan-200);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 0.1 99.9;
+  stroke-dashoffset: 102;
+  opacity: 0;
+}
+
+.cover-traces {
+  display: none;
+}
+
+/* Desktop paths share the logical canvas; SVG preserves the mobile geometry. */
+@supports (offset-path: path("M0 0 L10 10")) {
+  @media screen and (min-width: 1101px) {
+    .cover-traces {
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      display: block;
+      pointer-events: none;
+    }
+
+    .cover-traces > span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, transparent, rgba(166, 234, 248, 0.85));
+      offset-rotate: auto;
+      offset-distance: 0%;
+      opacity: 0;
+      will-change: transform;
+    }
+
+    .cover-traces > span::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: -1px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--cyan-200);
+      box-shadow: 0 0 6px rgba(166, 234, 248, 0.4);
+    }
+
+    .cover-trace-top { offset-path: path("M0 212 C110 183 194 94 226 0"); }
+    .cover-trace-left { offset-path: path("M0 650 C106 754 168 928 178 1080"); }
+    .cover-trace-bottom { offset-path: path("M1460 1080 C1590 990 1750 930 1920 928"); }
+
+    .slide-cover.active .cover-traces > span {
+      animation: coverTraceTravel 18s linear -2s infinite;
+    }
+
+    .slide-cover.active .cover-traces > .cover-trace-left { animation-delay: -8s; }
+    .slide-cover.active .cover-traces > .cover-trace-bottom { animation-delay: -14s; }
+
+    .slide-cover.active .cover-arcs .cover-arc-reflection,
+    .slide-cover.active .cover-arcs .cover-arc-light {
+      display: none;
+      animation: none;
+    }
+  }
 }
 
 .cover-particles {
@@ -222,15 +301,22 @@ select {
 
 .cover-title-line {
   display: block;
+  transform-origin: left center;
+  --cover-line-delay: 260ms;
 }
+
+.cover-title-line:nth-child(2) { --cover-line-delay: 420ms; }
+.cover-title-line:nth-child(3) { --cover-line-delay: 580ms; }
+.cover-title-line:nth-child(4) { --cover-line-delay: 740ms; }
 
 .cover-title-accent {
   color: #7bd1f6;
+  text-shadow: 0 0 18px rgba(16, 188, 229, 0.2), 0 0 36px rgba(16, 188, 229, 0.08);
 }
 
 @supports ((background-clip: text) or (-webkit-background-clip: text)) {
   .cover-title-accent {
-    background: linear-gradient(105deg, #7bd1f6 0% 40%, #9edff8 49%, #7bd1f6 58% 100%) 100% center / 250% 100% no-repeat;
+    background: linear-gradient(105deg, #7bd1f6 0% 40%, #dbf7ff 49%, #7bd1f6 58% 100%) 100% center / 250% 100% no-repeat;
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -255,7 +341,10 @@ select {
   width: 94px;
   height: 7px;
   border-radius: 4px;
-  background: var(--amber-500);
+  background:
+    linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.72), transparent) -32px 0 / 32px 100% no-repeat,
+    var(--amber-500);
+  transform-origin: left center;
 }
 
 .cover-meta {
@@ -310,12 +399,14 @@ select {
   inset: -14px;
   border: 1px solid rgba(16, 188, 229, 0.42);
   border-radius: 50%;
+  box-shadow: 0 0 24px rgba(16, 188, 229, 0.22), inset 0 0 12px rgba(16, 188, 229, 0.1);
   pointer-events: none;
 }
 
 .cover-logo::after {
   inset: -26px;
-  border-color: rgba(16, 188, 229, 0.24);
+  border-color: rgba(245, 168, 0, 0.24);
+  box-shadow: 0 0 26px rgba(245, 168, 0, 0.14);
 }
 
 .cover-logo img {
@@ -335,14 +426,26 @@ select {
   position: absolute;
   top: -2px;
   left: calc(50% - 2px);
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--cyan-200);
-  box-shadow: 0 0 5px rgba(166, 234, 248, 0.35);
+  box-shadow: 0 0 8px rgba(166, 234, 248, 0.5);
 }
 
-/* Cover motion never transforms the photograph or the logo image. */
+.cover-logo-orbit::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: calc(50% - 1.5px);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--amber-500);
+  box-shadow: 0 0 7px rgba(245, 168, 0, 0.4);
+}
+
+/* Only the photograph drifts; text settles and the logo artwork stays fixed. */
 .slide-cover.active .cover-content.reveal {
   opacity: 1;
   transform: none;
@@ -350,32 +453,49 @@ select {
 }
 
 .slide-cover.active .cover-brand {
-  animation: coverTextIn 900ms ease-out 60ms both;
+  animation: coverTextIn 900ms ease-out 100ms both;
 }
 
 .slide-cover.active .cover-content h1 {
-  animation: coverTextIn 1100ms ease-out 180ms both;
+  animation: none;
+}
+
+.slide-cover.active .cover-title-line {
+  animation: coverLineIn 1050ms cubic-bezier(0.16, 1, 0.3, 1) var(--cover-line-delay) both;
 }
 
 .slide-cover.active .cover-subtitle {
-  animation: coverTextIn 950ms ease-out 420ms both;
+  animation: coverTextIn 900ms ease-out 1700ms both;
+}
+
+.slide-cover.active .cover-subtitle::before {
+  animation: coverRuleDraw 700ms cubic-bezier(0.16, 1, 0.3, 1) 1750ms both, coverRuleReflection 12s ease-in-out 3s infinite;
 }
 
 .slide-cover.active .cover-meta {
-  animation: coverTextIn 900ms ease-out 560ms both;
+  animation: coverTextIn 800ms ease-out 1950ms both;
 }
 
 .slide-cover.active .cover-logo.reveal {
   transform: none;
-  animation: coverLogoIn 1000ms ease-out 600ms both;
+  animation: coverLogoIn 900ms ease-out 2050ms both;
+}
+
+.slide-cover.active .cover-image {
+  animation: coverKenBurns 42s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 .slide-cover.active .cover-shade::before {
   animation: coverAmbientLight 20s ease-in-out infinite;
 }
 
+.slide-cover.active .cover-shade::after {
+  animation: coverOverlayBreath 18s ease-in-out infinite;
+}
+
 .slide-cover.active .cover-arc-reflection {
-  animation: coverArcReflection 20s linear infinite;
+  animation: coverArcReflection 18s linear infinite;
 }
 
 .slide-cover.active .cover-arc-reflection-left {
@@ -387,7 +507,30 @@ select {
 }
 
 .slide-cover.active .cover-title-accent {
-  animation: coverTitleReflection 15s ease-in-out 1500ms infinite;
+  animation:
+    coverLineIn 1050ms cubic-bezier(0.16, 1, 0.3, 1) var(--cover-line-delay) both,
+    coverTitleReflection 9s ease-in-out 2s infinite,
+    coverAccentGlow 9s ease-in-out 2s infinite;
+}
+
+.slide-cover.active .cover-arc-light {
+  animation: coverArcLight 18s linear -2s infinite;
+}
+
+.slide-cover.active .cover-arc-light-left {
+  animation-delay: -8s;
+}
+
+.slide-cover.active .cover-arc-light-bottom {
+  animation-delay: -14s;
+}
+
+.slide-cover.active .cover-logo::before {
+  animation: coverSealHalo 8s ease-in-out infinite;
+}
+
+.slide-cover.active .cover-logo::after {
+  animation: coverSealHalo 8s ease-in-out -4s infinite;
 }
 
 .slide-cover.active .cover-logo-orbit {
@@ -407,25 +550,72 @@ select {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes coverLineIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 @keyframes coverLogoIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
+@keyframes coverKenBurns {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-0.18%, -0.12%, 0) scale(1.025); }
+}
+
 @keyframes coverAmbientLight {
-  0%, 100% { opacity: 0.18; transform: translate(0, 0); }
-  50% { opacity: 0.48; transform: translate(3%, -2%); }
+  0%, 100% { opacity: 0.2; transform: translate(0, 0); }
+  50% { opacity: 0.65; transform: translate(3%, -2%); }
+}
+
+@keyframes coverOverlayBreath {
+  0%, 100% { opacity: 0.58; }
+  50% { opacity: 0.84; }
 }
 
 @keyframes coverArcReflection {
   0% { opacity: 0; stroke-dashoffset: 102; }
-  8%, 82% { opacity: 0.4; }
+  8%, 82% { opacity: 0.58; }
   92%, 100% { opacity: 0; stroke-dashoffset: -2; }
 }
 
 @keyframes coverTitleReflection {
-  0%, 82% { background-position: 100% center; }
-  94%, 100% { background-position: 0% center; }
+  0%, 70% { background-position: 100% center; }
+  90%, 100% { background-position: 0% center; }
+}
+
+@keyframes coverAccentGlow {
+  0%, 55%, 100% { text-shadow: 0 0 18px rgba(16, 188, 229, 0.2), 0 0 36px rgba(16, 188, 229, 0.08); }
+  78% { text-shadow: 0 0 24px rgba(16, 188, 229, 0.34), 0 0 44px rgba(16, 188, 229, 0.14); }
+}
+
+@keyframes coverRuleDraw {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes coverRuleReflection {
+  0%, 78% { background-position: -32px 0; }
+  92%, 100% { background-position: 130px 0; }
+}
+
+@keyframes coverArcLight {
+  0% { opacity: 0; stroke-dashoffset: 102; }
+  8%, 84% { opacity: 0.7; }
+  94%, 100% { opacity: 0; stroke-dashoffset: -2; }
+}
+
+@keyframes coverTraceTravel {
+  0% { offset-distance: 0%; opacity: 0; }
+  8%, 86% { opacity: 0.65; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+@keyframes coverSealHalo {
+  0%, 100% { opacity: 0.52; }
+  50% { opacity: 0.94; }
 }
 
 @keyframes coverLogoOrbit {
@@ -433,8 +623,26 @@ select {
 }
 
 @keyframes coverParticleDrift {
-  0%, 100% { opacity: 0.12; transform: translate(0, 0); }
-  50% { opacity: 0.28; transform: translate(4px, -6px); }
+  0%, 100% { opacity: 0.18; transform: translate(0, 0); }
+  50% { opacity: 0.4; transform: translate(4px, -8px); }
+}
+
+.cover-open .presentation-controls {
+  border-color: rgba(166, 234, 248, 0.3);
+  background: rgba(3, 17, 39, 0.72);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(166, 234, 248, 0.05), 0 0 18px rgba(16, 188, 229, 0.06);
+  animation: coverControlsIn 650ms ease-out 2250ms both;
+}
+
+.cover-open .presentation-controls:focus-within {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes coverControlsIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce), print {
@@ -448,6 +656,10 @@ select {
   .slide-cover .reveal {
     opacity: 1;
     transform: none;
+  }
+
+  .cover-open .presentation-controls {
+    animation: none !important;
   }
 }
 
