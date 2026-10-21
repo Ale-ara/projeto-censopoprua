@@ -14,10 +14,30 @@
     <section class="slide slide-cover active" data-slide="1" aria-label="Abertura">
       <img class="cover-image" src="assets/abordagem-social-equipe.png" alt="Fotografia da equipe da Secretaria de Assistência Social e Cidadania durante atividade de campo em Belford Roxo">
       <div class="cover-shade"></div>
+      <svg class="cover-ribbons" viewBox="0 0 1920 1080" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="coverRibbonBlue" x1="1920" y1="180" x2="1510" y2="1080" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#10bce5" stop-opacity="0.2"></stop>
+            <stop offset="0.5" stop-color="#1266c6" stop-opacity="0.36"></stop>
+            <stop offset="1" stop-color="#06234b" stop-opacity="0.8"></stop>
+          </linearGradient>
+          <linearGradient id="coverRibbonGold" x1="1920" y1="0" x2="1510" y2="1080" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#f5a800" stop-opacity="0.18"></stop>
+            <stop offset="0.48" stop-color="#ffdc83" stop-opacity="0.8"></stop>
+            <stop offset="1" stop-color="#f5a800" stop-opacity="0.28"></stop>
+          </linearGradient>
+        </defs>
+        <path d="M840 0H950L450 1080H340Z" fill="#087eb7" fill-opacity="0.08"></path>
+        <path d="M840 0 340 1080M950 0 450 1080" stroke="#10bce5" stroke-opacity="0.26"></path>
+        <path d="M1920 256V482L1640 1080H1530Z" fill="url(#coverRibbonBlue)"></path>
+        <path d="M1920 256 1530 1080M1920 482 1640 1080" stroke="#46d9ff" stroke-opacity="0.64" stroke-width="1.5"></path>
+        <path d="M1920 0 1495 1080" stroke="url(#coverRibbonGold)" stroke-width="2"></path>
+      </svg>
+      <div class="cover-dots" aria-hidden="true"></div>
       <svg class="cover-arcs" viewBox="0 0 1920 1080" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
         <defs>
           <path id="coverArcTop" d="M0 212 C110 183 194 94 226 0" pathLength="100"></path>
-          <path id="coverArcLeft" d="M0 650 C106 754 168 928 178 1080" pathLength="100"></path>
+          <path id="coverArcLeft" d="M0 476 C240 700 510 826 566 1080" pathLength="100"></path>
           <path id="coverArcBottom" d="M1460 1080 C1590 990 1750 930 1920 928" pathLength="100"></path>
         </defs>
         <g class="cover-arc-lines">
@@ -25,7 +45,8 @@
           <path d="M0 160 C81 135 143 65 166 0"></path>
           <path d="M0 108 C51 86 92 43 108 0"></path>
           <use class="cover-arc-amber" href="#coverArcLeft"></use>
-          <path class="cover-arc-amber" d="M0 772 C70 904 102 995 108 1080"></path>
+          <path d="M0 542 C220 740 446 866 482 1080"></path>
+          <path class="cover-arc-amber" d="M0 612 C196 798 376 908 404 1080"></path>
           <use href="#coverArcBottom"></use>
         </g>
         <g class="cover-arc-reflections">
@@ -44,9 +65,9 @@
       <div class="cover-content reveal">
         <div class="cover-brand">
           <span class="brand-rule"></span>
-          <span>Vigilância Socioassistencial</span>
+          <span class="cover-brand-name"><strong>Vigilância</strong> Socioassistencial</span>
         </div>
-        <h1><span class="cover-title-line">Apresentação</span> <span class="cover-title-line">do Plano de</span> <span class="cover-title-line cover-title-accent">Ação do Censo</span> <span class="cover-title-line">Pop Rua</span></h1>
+        <h1><span class="cover-title-line">Apresentação</span> <span class="cover-title-line">do Plano de</span> <span class="cover-title-line cover-title-accent">Ação do Censo</span> <span class="cover-title-line cover-title-final">Pop Rua</span></h1>
         <p class="cover-subtitle">Proposta de estudo territorial para o município de Belford Roxo</p>
         <div class="cover-meta">
           <span>SEMASC</span>
