@@ -12,7 +12,11 @@
 <body>
   <main class="presentation" aria-label="Apresentação do Plano de Ação do Censo Pop Rua">
     <section class="slide slide-cover active" data-slide="1" aria-label="Abertura">
-      <img class="cover-image" src="assets/abordagem-social-equipe.png" alt="Fotografia da equipe da Secretaria de Assistência Social e Cidadania durante atividade de campo em Belford Roxo">
+      <div class="cover-gallery" role="img" aria-label="Fotografias da equipe da Secretaria de Assistência Social e Cidadania durante atividades de abordagem social em Belford Roxo">
+        <img class="cover-image" src="assets/capa-abordagem-01.png" alt="" fetchpriority="high" decoding="async">
+        <img class="cover-image cover-image-field" src="assets/capa-abordagem-02.png" alt="" decoding="async">
+        <img class="cover-image cover-image-field" src="assets/capa-abordagem-03.png" alt="" decoding="async">
+      </div>
       <div class="cover-shade"></div>
       <svg class="cover-ribbons" viewBox="0 0 1920 1080" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
         <defs>
@@ -72,12 +76,14 @@
         <div class="cover-meta">
           <span>SEMASC</span>
           <span>2026</span>
+          <small class="cover-credit">Slides criados por <strong>Alessandro Araujo</strong> (Vigilância)</small>
         </div>
       </div>
       <div class="cover-logo reveal delay-2">
         <img src="assets/vigilancia-logo.png" alt="Vigilância Socioassistencial de Belford Roxo">
         <span class="cover-logo-orbit" aria-hidden="true"><span></span></span>
       </div>
+      <button id="coverGalleryToggle" class="cover-gallery-toggle" type="button" aria-label="Pausar alternância das fotos" title="Pausar alternância das fotos" aria-pressed="false" hidden><i data-lucide="pause" aria-hidden="true"></i></button>
     </section>
 
     <section class="slide slide-light" data-slide="2" aria-label="Apresentação da proposta">
@@ -338,7 +344,6 @@
       <button id="fullscreen" type="button" aria-label="Tela cheia" title="Tela cheia"><i data-lucide="maximize"></i></button>
     </nav>
     <div class="keyboard-hint" aria-hidden="true">Use as setas para navegar</div>
-    <small class="presentation-credit">Slides criados por Alessandro Araujo</small>
   </footer>
   <aside id="fullscreenHint" class="fullscreen-hint" aria-label="Dica de visualização" hidden>
     <button id="fullscreenHintAction" class="fullscreen-hint-action" type="button"><span id="fullscreenHintText">Clique aqui para visualizar em tela cheia</span></button>

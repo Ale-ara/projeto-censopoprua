@@ -92,6 +92,14 @@ select {
   background: var(--navy-950);
 }
 
+.cover-gallery {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--navy-950);
+  transform-origin: 70% 55%;
+}
+
 .cover-image {
   position: absolute;
   inset: 0;
@@ -99,7 +107,52 @@ select {
   height: 100%;
   object-fit: cover;
   object-position: center 45%;
-  transform-origin: 70% 55%;
+  opacity: 0;
+}
+
+.cover-image:first-child {
+  opacity: 1;
+}
+
+.cover-image-field {
+  left: 42%;
+  width: 58%;
+  object-position: center 60%;
+  mask-image: linear-gradient(90deg, transparent, #000 18%);
+}
+
+.cover-gallery-toggle {
+  position: absolute;
+  z-index: 3;
+  right: 36px;
+  bottom: 82px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid rgba(166, 234, 248, 0.24);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(3, 20, 47, 0.56);
+  cursor: pointer;
+}
+
+.cover-gallery-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.cover-gallery-toggle:hover,
+.cover-gallery-toggle:focus-visible {
+  color: var(--white);
+  border-color: var(--cyan-200);
+  outline: 2px solid rgba(166, 234, 248, 0.5);
+  outline-offset: 3px;
+}
+
+.cover-gallery-toggle[hidden] {
+  display: none;
 }
 
 .cover-shade {
@@ -394,9 +447,10 @@ select {
 
 .cover-meta {
   display: flex;
-  gap: 22px;
+  flex-wrap: wrap;
+  gap: 8px 18px;
   align-items: center;
-  max-width: 640px;
+  max-width: 870px;
   margin-top: 22px;
   padding-top: 0;
   color: var(--white);
@@ -407,6 +461,24 @@ select {
 
 .cover-meta::after {
   content: none;
+}
+
+.cover-credit {
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.cover-credit::before {
+  content: "-";
+  margin-right: 14px;
+  color: var(--cyan-200);
+}
+
+.cover-credit strong {
+  color: var(--white);
+  font-weight: 650;
 }
 
 .cover-meta span + span::before {
@@ -522,9 +594,26 @@ select {
   animation: coverLogoIn 900ms ease-out 2050ms both;
 }
 
-.slide-cover.active .cover-image {
+.slide-cover.active .cover-gallery {
   animation: coverKenBurns 42s ease-in-out infinite alternate;
   will-change: transform;
+}
+
+.slide-cover.active .cover-image {
+  animation: coverPhotoCrossfade 36s ease-in-out infinite;
+}
+
+.slide-cover.active .cover-image:nth-child(2) {
+  animation-delay: -24s;
+}
+
+.slide-cover.active .cover-image:nth-child(3) {
+  animation-delay: -12s;
+}
+
+.slide-cover.active .cover-gallery.is-paused,
+.slide-cover.active .cover-gallery.is-paused .cover-image {
+  animation-play-state: paused;
 }
 
 .slide-cover.active .cover-shade::before {
@@ -604,6 +693,12 @@ select {
 @keyframes coverKenBurns {
   from { transform: translate3d(0, 0, 0) scale(1); }
   to { transform: translate3d(-0.18%, -0.12%, 0) scale(1.025); }
+}
+
+/* Each photograph holds for ten seconds, then crossfades over two seconds. */
+@keyframes coverPhotoCrossfade {
+  0%, 27.7778%, 100% { opacity: 1; }
+  33.3333%, 94.4444% { opacity: 0; }
 }
 
 @keyframes coverAmbientLight {
@@ -701,6 +796,10 @@ select {
 
   .cover-open .presentation-controls {
     animation: none !important;
+  }
+
+  .cover-gallery-toggle {
+    display: none;
   }
 }
 
@@ -3667,16 +3766,6 @@ select {
   opacity: 0;
 }
 
-.presentation-credit {
-  position: absolute;
-  right: 24px;
-  top: 28px;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 10px;
-  line-height: 1.35;
-  text-align: right;
-}
-
 .fullscreen-hint {
   position: fixed;
   z-index: 30;
@@ -3884,6 +3973,22 @@ select {
     object-position: 64% center;
   }
 
+  .cover-image-field {
+    left: 0;
+    width: 100%;
+    object-position: 58% center;
+    mask-image: none;
+  }
+
+  .cover-image-field:nth-child(2) {
+    object-position: 35% center;
+  }
+
+  .cover-gallery-toggle {
+    right: 20px;
+    bottom: 20px;
+  }
+
   .cover-content {
     position: relative;
     left: auto;
@@ -3946,6 +4051,17 @@ select {
   .cover-meta {
     margin-top: 30px;
     font-size: 16px;
+  }
+
+  .cover-credit {
+    flex-basis: 100%;
+    padding-left: 0;
+    border-left: 0;
+    font-size: 12px;
+  }
+
+  .cover-credit::before {
+    display: none;
   }
 
   .cover-logo {
@@ -4423,12 +4539,6 @@ select {
     gap: 5px;
     padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
     background: #020c1c;
-  }
-
-  .presentation-credit {
-    position: static;
-    max-width: 100%;
-    text-align: center;
   }
 
   .presentation-controls {

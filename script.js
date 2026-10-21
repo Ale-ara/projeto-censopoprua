@@ -13,6 +13,9 @@ const navigationFooter = document.querySelector('.presentation-footer');
 const presentationCanvas = document.querySelector('.presentation');
 const responsiveLayout = window.matchMedia('(max-width: 1100px)');
 const timelineMilestones = Array.from(document.querySelectorAll('.slide[data-slide="5"] .timeline-item'));
+const coverGallery = document.querySelector('.cover-gallery');
+const coverGalleryToggle = document.getElementById('coverGalleryToggle');
+const reducedCoverMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 fullscreenButton.hidden = typeof document.documentElement.requestFullscreen !== 'function' || document.fullscreenEnabled === false;
 
 let currentSlide = 0;
@@ -20,6 +23,27 @@ let touchStartX = 0;
 let touchStartY = 0;
 let trackingTouch = false;
 let fullscreenHintTimer;
+
+function updateCoverGalleryToggle() {
+  const isPaused = coverGallery.classList.contains('is-paused');
+  const label = isPaused ? 'Retomar alternância das fotos' : 'Pausar alternância das fotos';
+  coverGalleryToggle.hidden = reducedCoverMotion.matches;
+  coverGalleryToggle.setAttribute('aria-label', label);
+  coverGalleryToggle.setAttribute('title', label);
+  coverGalleryToggle.setAttribute('aria-pressed', String(isPaused));
+  coverGalleryToggle.innerHTML = `<i data-lucide="${isPaused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
+  if (window.lucide) window.lucide.createIcons();
+}
+
+coverGalleryToggle.addEventListener('click', () => {
+  coverGallery.classList.toggle('is-paused');
+  updateCoverGalleryToggle();
+});
+coverGalleryToggle.addEventListener('keydown', (event) => {
+  if (event.key === ' ' || event.key === 'Enter') event.stopPropagation();
+});
+reducedCoverMotion.addEventListener('change', updateCoverGalleryToggle);
+updateCoverGalleryToggle();
 
 function positionFullscreenHint() {
   if (fullscreenHint.hidden) return;
